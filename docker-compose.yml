@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    volumes:
+      - ./frontend/app:/togo_app
+    ports:
+      - "3000:3000"
+    tty: true
