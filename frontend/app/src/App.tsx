@@ -1,5 +1,6 @@
-import { Box, CssBaseline, Container } from '@mui/material';
+import { Box, CssBaseline } from '@mui/material';
 import Header from './components/layout/Header';
+import Home from './components/Home';
 
 const App = () => (
   <Box sx={{ display: 'flex' }}>
@@ -16,7 +17,7 @@ const App = () => (
         pt: { xs: 9, sm: 11, md: 12 },
       }}
     >
-      <Container maxWidth="lg">ToGo App</Container>
+      <Home />
     </Box>
   </Box>
 );
