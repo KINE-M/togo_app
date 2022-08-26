@@ -19,7 +19,7 @@ import {
   ModeEditOutline as ModeEditOutlineIcon,
 } from '@mui/icons-material';
 import { RootState, AppDispatch } from '../../redux/store';
-import { getTogoList, initialState } from '../../redux/togoSlice';
+import { getTogoList, updateTogoDone, deleteTogo, initialState } from '../../redux/togoSlice';
 import sampleTogoList from '../../sampleData/togo';
 
 const MyTogoList = () => {
@@ -30,6 +30,14 @@ const MyTogoList = () => {
   useEffect(() => {
     dispatch(getTogoList(sampleTogoList));
   }, [dispatch]);
+
+  const handleChangeTogoDone = (id: number) => {
+    dispatch(updateTogoDone(id));
+  };
+
+  const handleDeleteTogo = (id: number) => {
+    dispatch(deleteTogo(id));
+  };
 
   return (
     <>
@@ -58,7 +66,7 @@ const MyTogoList = () => {
             togoList.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>
-                  <Checkbox checked={item.done} />
+                  <Checkbox checked={item.done} onChange={() => handleChangeTogoDone(item.id)} />
                 </TableCell>
                 <TableCell>{item.location}</TableCell>
                 <TableCell>
@@ -78,7 +86,10 @@ const MyTogoList = () => {
                   <ModeEditOutlineIcon sx={{ cursor: 'pointer' }} />
                 </TableCell>
                 <TableCell>
-                  <DeleteIcon sx={{ cursor: 'pointer' }} />
+                  <DeleteIcon
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => handleDeleteTogo(item.id)}
+                  />
                 </TableCell>
               </TableRow>
             ))}
