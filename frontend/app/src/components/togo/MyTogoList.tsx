@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Checkbox,
@@ -20,12 +20,14 @@ import {
 } from '@mui/icons-material';
 import { RootState, AppDispatch } from '../../redux/store';
 import { getTogoList, updateTogoDone, deleteTogo, initialState } from '../../redux/togoSlice';
+import AddTogoModal from './AddTogoModal';
 import sampleTogoList from '../../sampleData/togo';
 
 const MyTogoList = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const { togoList } = useSelector((state: RootState) => state.togo || initialState);
+  const [isOpenAddTogoModal, setIsOpenAddTogoModal] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(getTogoList(sampleTogoList));
@@ -39,8 +41,20 @@ const MyTogoList = () => {
     dispatch(deleteTogo(id));
   };
 
+  const handleOpenAddTogoModal = () => {
+    setIsOpenAddTogoModal(true);
+  };
+
+  const handleCloseAddTogoModal = () => {
+    setIsOpenAddTogoModal(false);
+  };
+
   return (
     <>
+      <AddTogoModal
+        isOpenAddTogoModal={isOpenAddTogoModal}
+        handleCloseAddTogoModal={handleCloseAddTogoModal}
+      />
       <Typography
         component="h2"
         variant="h6"
@@ -100,6 +114,7 @@ const MyTogoList = () => {
         aria-label="add"
         size="medium"
         sx={{ position: 'absolute', top: 16, right: 16 }}
+        onClick={handleOpenAddTogoModal}
       >
         <AddIcon />
       </Fab>
