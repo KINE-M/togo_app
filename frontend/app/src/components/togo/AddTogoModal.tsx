@@ -39,7 +39,7 @@ const AddTogoModal: React.FC<AddTogoModalProps> = ({
     fullscreenControl: false,
   };
 
-  const [searchLocationName, setSearchLocationName] = useState<string>('');
+  const [searchLocationKeyword, setSearchLocationKeyword] = useState<string>('');
   const [mapCenterPosition, setMapCenterPosition] = useState<MapPosition>({
     lat: 35.6808610662155,
     lng: 139.76856460990368,
@@ -60,7 +60,7 @@ const AddTogoModal: React.FC<AddTogoModalProps> = ({
   const geocode = () => {
     const geocoder = new window.google.maps.Geocoder();
     geocoder
-      .geocode({ address: searchLocationName }, (results, status) => {
+      .geocode({ address: searchLocationKeyword }, (results, status) => {
         if (results && status === google.maps.GeocoderStatus.OK) {
           const lat = results[0].geometry?.location.lat();
           const lng = results[0].geometry?.location.lng();
@@ -71,7 +71,7 @@ const AddTogoModal: React.FC<AddTogoModalProps> = ({
   };
 
   const searchLocation = () => {
-    if (!searchLocationName) {
+    if (!searchLocationKeyword) {
       return;
     }
     geocode();
@@ -111,7 +111,7 @@ const AddTogoModal: React.FC<AddTogoModalProps> = ({
             sx={{ ml: 1, flex: 1 }}
             placeholder="Search Google Maps"
             inputProps={{ 'aria-label': 'search google maps' }}
-            onChange={(e) => setSearchLocationName(e.target.value)}
+            onChange={(e) => setSearchLocationKeyword(e.target.value)}
             onKeyDown={handleKeyPressSearchLocation}
           />
           <IconButton sx={{ p: '10px' }} aria-label="search" onClick={handleSearchLocation}>
