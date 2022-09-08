@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Marker } from '@react-google-maps/api';
 import {
   Button,
@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import GMap from '../common/GMap';
+import type { MapPosition } from '../../types/map';
 
 type AddTogoModalProps = {
   isOpenAddTogoModal: boolean;
@@ -38,8 +39,54 @@ const AddTogoModal: React.FC<AddTogoModalProps> = ({
     fullscreenControl: false,
   };
 
-  const mapCenterPosition = { lat: 35.6808610662155, lng: 139.76856460990368 };
-  const mapMarkerPosition = { lat: 35.6808610662155, lng: 139.76856460990368 };
+  const [searchLocationName, setSearchLocationName] = useState<string>('');
+  const [mapCenterPosition, setMapCenterPosition] = useState<MapPosition>({
+    lat: 35.6808610662155,
+    lng: 139.76856460990368,
+  });
+  const [mapMarkerPosition, setMapMarkerPosition] = useState<MapPosition>({
+    lat: 35.6808610662155,
+    lng: 139.76856460990368,
+  });
+
+  const createMarker = (e: google.maps.MapMouseEvent) => {
+    const lat = e.latLng?.lat();
+    const lng = e.latLng?.lng();
+    if (lat && lng) {
+      setMapMarkerPosition({ lat, lng });
+    }
+  };
+
+  const geocode = () => {
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder
+      .geocode({ address: searchLocationName }, (results, status) => {
+        if (results && status === google.maps.GeocoderStatus.OK) {
+          const lat = results[0].geometry?.location.lat();
+          const lng = results[0].geometry?.location.lng();
+          setMapCenterPosition({ lat, lng });
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const searchLocation = () => {
+    if (!searchLocationName) {
+      return;
+    }
+    geocode();
+  };
+
+  const handleKeyPressSearchLocation = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      searchLocation();
+    }
+  };
+
+  const handleSearchLocation = () => {
+    searchLocation();
+  };
 
   return (
     <Dialog open={isOpenAddTogoModal} onClose={handleCloseAddTogoModal} fullWidth maxWidth="md">
@@ -64,8 +111,10 @@ const AddTogoModal: React.FC<AddTogoModalProps> = ({
             sx={{ ml: 1, flex: 1 }}
             placeholder="Search Google Maps"
             inputProps={{ 'aria-label': 'search google maps' }}
+            onChange={(e) => setSearchLocationName(e.target.value)}
+            onKeyDown={handleKeyPressSearchLocation}
           />
-          <IconButton sx={{ p: '10px' }} aria-label="search">
+          <IconButton sx={{ p: '10px' }} aria-label="search" onClick={handleSearchLocation}>
             <SearchIcon />
           </IconButton>
         </Paper>
@@ -75,6 +124,7 @@ const AddTogoModal: React.FC<AddTogoModalProps> = ({
             zoom={10}
             mapCenterPosition={mapCenterPosition}
             mapOptions={mapOptions}
+            handleClick={(e) => createMarker(e)}
           >
             {mapMarkerPosition && <Marker position={mapMarkerPosition} />}
           </GMap>

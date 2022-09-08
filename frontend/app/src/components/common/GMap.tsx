@@ -15,6 +15,7 @@ type GMapProps = {
     mapTypeControl: boolean;
     fullscreenControl: boolean;
   };
+  handleClick?: (e: google.maps.MapMouseEvent) => void;
 };
 
 const GMap: React.FC<GMapProps> = ({
@@ -23,6 +24,7 @@ const GMap: React.FC<GMapProps> = ({
   zoom,
   mapCenterPosition,
   mapOptions,
+  handleClick,
 }) => (
   <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY}>
     <GoogleMap
@@ -30,6 +32,7 @@ const GMap: React.FC<GMapProps> = ({
       zoom={zoom}
       center={mapCenterPosition}
       options={mapOptions}
+      onClick={handleClick}
     >
       {children}
     </GoogleMap>
