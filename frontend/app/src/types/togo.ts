@@ -1,10 +1,9 @@
+import type { MapPosition } from './map';
+
 export type Togo = {
-  readonly id: number;
+  id: number | undefined;
   done: boolean;
   location: string;
-  position: {
-    lat: number;
-    lng: number;
-  };
+  position: MapPosition;
   tag: string;
 };
