@@ -23,6 +23,17 @@ import { getTogoList, updateTogoDone, deleteTogo, initialState } from '../../red
 import AddTogoModal from './AddTogoModal';
 import sampleTogoList from '../../sampleData/togo';
 
+const initialTogoData = {
+  id: undefined,
+  done: false,
+  location: '',
+  tag: '',
+  position: {
+    lat: 35.6808610662155,
+    lng: 139.76856460990368,
+  },
+};
+
 const MyTogoList = () => {
   const dispatch: AppDispatch = useDispatch();
 
@@ -33,11 +44,17 @@ const MyTogoList = () => {
     dispatch(getTogoList(sampleTogoList));
   }, [dispatch]);
 
-  const handleChangeTogoDone = (id: number) => {
+  const handleChangeTogoDone = (id: number | undefined) => {
+    if (id === undefined) {
+      return;
+    }
     dispatch(updateTogoDone(id));
   };
 
-  const handleDeleteTogo = (id: number) => {
+  const handleDeleteTogo = (id: number | undefined) => {
+    if (id === undefined) {
+      return;
+    }
     dispatch(deleteTogo(id));
   };
 
@@ -52,6 +69,7 @@ const MyTogoList = () => {
   return (
     <>
       <AddTogoModal
+        togoData={initialTogoData}
         isOpenAddTogoModal={isOpenAddTogoModal}
         handleCloseAddTogoModal={handleCloseAddTogoModal}
       />
@@ -64,20 +82,20 @@ const MyTogoList = () => {
       >
         My List
       </Typography>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>&nbsp;</TableCell>
-            <TableCell>場所</TableCell>
-            <TableCell>タグ</TableCell>
-            <TableCell>地図</TableCell>
-            <TableCell>編集</TableCell>
-            <TableCell>削除</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {togoList &&
-            togoList.map((item) => (
+      {togoList.length ? (
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>&nbsp;</TableCell>
+              <TableCell>場所</TableCell>
+              <TableCell>タグ</TableCell>
+              <TableCell>地図</TableCell>
+              <TableCell>編集</TableCell>
+              <TableCell>削除</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {togoList.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>
                   <Checkbox checked={item.done} onChange={() => handleChangeTogoDone(item.id)} />
@@ -107,8 +125,11 @@ const MyTogoList = () => {
                 </TableCell>
               </TableRow>
             ))}
-        </TableBody>
-      </Table>
+          </TableBody>
+        </Table>
+      ) : (
+        <Typography variant="body1">登録されているToGoはありません</Typography>
+      )}
       <Fab
         color="primary"
         aria-label="add"

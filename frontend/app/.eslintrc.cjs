@@ -33,6 +33,7 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/require-default-props': 'off',
+    'react-hooks/exhaustive-deps': 'off',
     // 関数コンポーネントにアロー関数をでの宣言を適用
     'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
     // .tsxにjsxを書いてもよいようにする
