@@ -22,6 +22,7 @@ import { RootState, AppDispatch } from '../../redux/store';
 import { getTogoList, updateTogoDone, deleteTogo, initialState } from '../../redux/togoSlice';
 import AddTogoModal from './AddTogoModal';
 import sampleTogoList from '../../sampleData/togo';
+import type { Togo } from '../../types/togo';
 
 const initialTogoData = {
   id: undefined,
@@ -39,6 +40,9 @@ const MyTogoList = () => {
 
   const { togoList } = useSelector((state: RootState) => state.togo || initialState);
   const [isOpenAddTogoModal, setIsOpenAddTogoModal] = useState<boolean>(false);
+  const [isOpenUpdateTogoModal, setIsOpenUpdateTogoModal] = useState<boolean>(false);
+
+  const [togoData, setTogoData] = useState<Togo>(initialTogoData);
 
   useEffect(() => {
     dispatch(getTogoList(sampleTogoList));
@@ -64,6 +68,15 @@ const MyTogoList = () => {
 
   const handleCloseAddTogoModal = () => {
     setIsOpenAddTogoModal(false);
+  };
+
+  const handleOpenUpdateTogoModal = (id: number | undefined) => {
+    if (id === undefined) {
+      return;
+    }
+    const data = togoList.filter((togo) => togo.id === id);
+    setTogoData(data[0]);
+    setIsOpenUpdateTogoModal(true);
   };
 
   return (
@@ -115,7 +128,10 @@ const MyTogoList = () => {
                   </Link>
                 </TableCell>
                 <TableCell>
-                  <ModeEditOutlineIcon sx={{ cursor: 'pointer' }} />
+                  <ModeEditOutlineIcon
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => handleOpenUpdateTogoModal(item.id)}
+                  />
                 </TableCell>
                 <TableCell>
                   <DeleteIcon
