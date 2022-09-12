@@ -86,6 +86,11 @@ const MyTogoList = () => {
         isOpenAddTogoModal={isOpenAddTogoModal}
         handleCloseAddTogoModal={handleCloseAddTogoModal}
       />
+      <UpdateTogoModal
+        togoData={togoData}
+        isOpenAddTogoModal={isOpenAddTogoModal}
+        handleCloseAddTogoModal={handleCloseAddTogoModal}
+      />
       <Typography
         component="h2"
         variant="h6"
