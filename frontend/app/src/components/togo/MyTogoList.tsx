@@ -79,12 +79,21 @@ const MyTogoList = () => {
     setIsOpenUpdateTogoModal(true);
   };
 
+  const handleCloseUpdateTogoModal = () => {
+    setIsOpenUpdateTogoModal(false);
+  };
+
   return (
     <>
       <AddTogoModal
         togoData={initialTogoData}
         isOpenAddTogoModal={isOpenAddTogoModal}
         handleCloseAddTogoModal={handleCloseAddTogoModal}
+      />
+      <UpdateTogoModal
+        togoData={togoData}
+        isOpenUpdateTogoModal={isOpenUpdateTogoModal}
+        handleCloseUpdateTogoModal={handleCloseUpdateTogoModal}
       />
       <Typography
         component="h2"
