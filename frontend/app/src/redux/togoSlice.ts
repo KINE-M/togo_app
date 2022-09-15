@@ -27,10 +27,10 @@ export const togoSlice = createSlice({
     deleteTogo(state: TogoState, action: PayloadAction<number>) {
       state.togoList = state.togoList.filter((togo) => togo.id !== action.payload);
     },
-    AddTogo(state: TogoState, action: PayloadAction<Togo>) {
+    addTogo(state: TogoState, action: PayloadAction<Togo>) {
       state.togoList = [...state.togoList, action.payload];
     },
   },
 });
 
-export const { getTogoList, updateTogoDone, deleteTogo, AddTogo } = togoSlice.actions;
+export const { getTogoList, updateTogoDone, deleteTogo, addTogo } = togoSlice.actions;
