@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import TogoForm from './TogoForm';
 import { RootState, AppDispatch } from '../../redux/store';
-import { AddTogo, initialState } from '../../redux/togoSlice';
+import { addTogo, initialState } from '../../redux/togoSlice';
 import type { MapPosition } from '../../types/map';
 import type { Togo } from '../../types/togo';
 
@@ -68,7 +68,7 @@ const AddTogoModal: React.FC<AddTogoModalProps> = ({
       tag,
       position: mapMarkerPosition,
     };
-    dispatch(AddTogo(addTogoData));
+    dispatch(addTogo(addTogoData));
     handleCloseAddTogoModal();
   };
 
