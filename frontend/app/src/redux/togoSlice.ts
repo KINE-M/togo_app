@@ -30,7 +30,18 @@ export const togoSlice = createSlice({
     addTogo(state: TogoState, action: PayloadAction<Togo>) {
       state.togoList = [...state.togoList, action.payload];
     },
+    updateTogo(state: TogoState, action: PayloadAction<Togo>) {
+      state.togoList = state.togoList.map((togo) => {
+        if (togo.id === action.payload.id) {
+          togo = {
+            ...togo,
+            ...action.payload,
+          };
+        }
+        return togo;
+      });
+    },
   },
 });
 
-export const { getTogoList, updateTogoDone, deleteTogo, addTogo } = togoSlice.actions;
+export const { getTogoList, updateTogoDone, deleteTogo, addTogo, updateTogo } = togoSlice.actions;
