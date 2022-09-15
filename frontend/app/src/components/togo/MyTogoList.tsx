@@ -21,6 +21,7 @@ import {
 import { RootState, AppDispatch } from '../../redux/store';
 import { getTogoList, updateTogoDone, deleteTogo, initialState } from '../../redux/togoSlice';
 import AddTogoModal from './AddTogoModal';
+import UpdateTogoModal from './UpdateTogoModal';
 import sampleTogoList from '../../sampleData/togo';
 import type { Togo } from '../../types/togo';
 
