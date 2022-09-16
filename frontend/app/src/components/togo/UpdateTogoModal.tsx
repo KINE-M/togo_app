@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import TogoForm from './TogoForm';
 import { AppDispatch } from '../../redux/store';
 import { updateTogo } from '../../redux/togoSlice';
-import type { MapPosition } from '../../types/map';
+import useSetTogoFormValue from '../../hooks/togo/useSetTogoFormValue';
 import type { Togo } from '../../types/togo';
 
 type UpdateTogoModalProps = {
@@ -20,40 +20,15 @@ const UpdateTogoModal: React.FC<UpdateTogoModalProps> = ({
 }) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const [mapCenterPosition, setMapCenterPosition] = useState<MapPosition>(togoData.position);
-
-  const [location, setLocation] = useState<string>(togoData.location);
-  const [tag, setTag] = useState<string>(togoData.tag);
-  const [mapMarkerPosition, setMapMarkerPosition] = useState<MapPosition>(togoData.position);
-
-  const initializeTogoState = (isOpen: boolean) => {
-    if (isOpen) {
-      setLocation(togoData.location);
-      setTag(togoData.tag);
-      setMapMarkerPosition(togoData.position);
-      setMapCenterPosition(togoData.position);
-    }
-  };
-
-  useEffect(() => {
-    initializeTogoState(isOpenUpdateTogoModal);
-  }, [isOpenUpdateTogoModal]);
-
-  const handleChangeLocation = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocation(e.target.value);
-  };
-
-  const handleChangeTag = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTag(e.target.value);
-  };
-
-  const handleChangeMapMarkerPosition = (position: MapPosition) => {
-    setMapMarkerPosition(position);
-  };
-
-  const handleChangeMapCenterPosition = (position: MapPosition) => {
-    setMapCenterPosition(position);
-  };
+  const [
+    { mapCenterPosition, location, tag, mapMarkerPosition },
+    {
+      handleChangeLocation,
+      handleChangeTag,
+      handleChangeMapCenterPosition,
+      handleChangeMapMarkerPosition,
+    },
+  ] = useSetTogoFormValue(togoData, isOpenUpdateTogoModal);
 
   const handleUpdateTogo = () => {
     if (!location || !tag) {
