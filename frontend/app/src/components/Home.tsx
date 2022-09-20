@@ -2,7 +2,7 @@ import { Container, Paper } from '@mui/material';
 import MyTogoList from './togo/MyTogoList';
 
 const Home = () => (
-  <Container maxWidth="lg">
+  <Container maxWidth="lg" sx={{ pt: 2 }}>
     <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', position: 'relative' }}>
       <MyTogoList />
     </Paper>
