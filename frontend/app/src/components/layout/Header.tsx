@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   AppBar,
   Box,
   Button,
   Container,
   IconButton,
-  Link,
   Toolbar,
   Typography,
   Menu,
@@ -17,6 +17,8 @@ const pages = ['MyList', 'Posts', 'Map'];
 const settings = ['Account', 'Logout'];
 
 const Header = () => {
+  const navigation = useNavigate();
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -34,6 +36,14 @@ const Header = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleOpenLink = (page: string) => {
+    const link: string = page.toLowerCase() === 'mylist' ? '/' : `/${page.toLowerCase()}`;
+    navigation(link);
+    if (anchorElNav !== null) {
+      handleCloseNavMenu();
+    }
   };
 
   return (
@@ -89,7 +99,7 @@ const Header = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page}>
+                <MenuItem key={page} onClick={() => handleOpenLink(page)}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -116,14 +126,18 @@ const Header = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button key={page} sx={{ my: 2, color: 'white', fontSize: '15px', display: 'block' }}>
+              <Button
+                key={page}
+                sx={{ my: 2, color: 'white', fontSize: '15px', display: 'block' }}
+                onClick={() => handleOpenLink(page)}
+              >
                 {page}
               </Button>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Link color="inherit" underline="none" href="/login">
+            <Link style={{ textDecoration: 'none', color: 'white' }} to="/login">
               Login
             </Link>
             <Menu
