@@ -15,7 +15,7 @@ type GMapProps = {
     mapTypeControl: boolean;
     fullscreenControl: boolean;
   };
-  handleClick?: (e: google.maps.MapMouseEvent) => void;
+  handleClick?: ((e: google.maps.MapMouseEvent) => void) | (() => void);
 };
 
 const GMap: React.FC<GMapProps> = ({

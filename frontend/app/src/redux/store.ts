@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { postSlice } from './postSlice';
 import { togoSlice } from './togoSlice';
 
 export const store = configureStore({
   reducer: {
     togo: togoSlice.reducer,
+    post: postSlice.reducer,
   },
 });
 
