@@ -1,8 +1,11 @@
-import Container from '@mui/material/Container';
+import { Container, Paper } from '@mui/material';
+import Posts from './post/Posts';
 
 const AllPosts = () => (
   <Container maxWidth="lg" sx={{ pt: 2 }}>
-    All Posts
+    <Paper sx={{ mt: 2 }}>
+      <Posts />
+    </Paper>
   </Container>
 );
 
